@@ -18,7 +18,7 @@ Branch: `feat/lazer-bykes-remake` · Delivery: ask-on-risk · Test runner: `node
 | T1 | S2, S4 | inline | done | `docs/original-analysis.md` |
 | T2 | S2 | inline | done (RED: module missing → GREEN 20 tests) | Core rules: movement, wrap, collision, turns, alternation, border, obstacles, races, scoring, game over |
 | T3 | S2 | inline | done (4 tests) | Computer player |
-| T4 | S2 | inline | pending | PSG sound model + Web Audio adapter |
+| T4 | S2 | inline | done (RED: module missing → GREEN 5 tests) | PSG sound model + Web Audio adapter |
 | T5 | S1, S2, S3 | inline | pending | Renderer, original pixel art, keyboard input, screens (title, instructions, menu, game), game loop |
 
 ## Log
