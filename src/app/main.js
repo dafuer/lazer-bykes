@@ -2,7 +2,7 @@
 (function (LB) {
   'use strict';
 
-  const { setInput, LEFT } = LB.game;
+  const { setInput } = LB.game;
   const { steerFor } = LB.keyboard;
   const { Sound } = LB.sound;
   const { Renderer } = LB.renderer;
@@ -72,10 +72,8 @@
       play(togglePause(match));
       return;
     }
-    const steer = steerFor(event.code);
-    if (steer && !(steer.player === LEFT && match.game.settings.computer)) {
-      setInput(match.game, steer.player, steer.dir);
-    }
+    const steer = steerFor(event.code, match.game.settings);
+    if (steer) setInput(match.game, steer.player, steer.dir);
   }
 
   function play(events) {

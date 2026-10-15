@@ -123,6 +123,7 @@ both bikes' directions; tone B is a constant ~58 Hz drone. The crash noise decay
 | Original | Remake | Reason |
 | --- | --- | --- |
 | Left: Q/A/CTRL/SHIFT or joystick 1; right: cursor keys or joystick 2 | Player 1 (left bike): arrow keys. Player 2 (right bike): W/A/S/D | Requested controls |
+| Against the computer, the human keeps the right player's keys (cursor keys) | Against the computer, the arrow keys (and W/A/S/D) steer the right bike | Requested: one player uses the arrows |
 | Keys can be redefined (U/R/D/L menu entries) | Not offered | Fixed controls requested |
 | STOP pauses | P pauses | No STOP key on PC keyboards |
 | A game can only be left at game over (M) | Esc returns to the menu at any time; M still works at game over | Convenience in a browser tab |

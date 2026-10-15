@@ -25,6 +25,16 @@ test('W A S D steer player 2, the right bike', () => {
   assert.equal(steerFor('KeyQ'), null);
 });
 
+test('against the computer, the arrow keys steer the human player (right bike)', () => {
+  const solo = { computer: true };
+  assert.deepEqual(steerFor('ArrowUp', solo), { player: RIGHT, dir: DIR.UP });
+  assert.deepEqual(steerFor('ArrowRight', solo), { player: RIGHT, dir: DIR.RIGHT });
+  assert.deepEqual(steerFor('ArrowDown', solo), { player: RIGHT, dir: DIR.DOWN });
+  assert.deepEqual(steerFor('ArrowLeft', solo), { player: RIGHT, dir: DIR.LEFT });
+  assert.deepEqual(steerFor('KeyW', solo), { player: RIGHT, dir: DIR.UP });
+  assert.deepEqual(steerFor('ArrowUp', { computer: false }), { player: LEFT, dir: DIR.UP });
+});
+
 test('the menu starts with the border on and everything else off', () => {
   assert.deepEqual(defaultSettings(), { border: true, computer: false, obstacles: false, fast: false });
 });

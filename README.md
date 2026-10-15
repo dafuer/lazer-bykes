@@ -19,6 +19,9 @@ Double-click `index.html`. No server, npm or install needed.
 Menu: **S** start, **I** instructions, **B** border, **C** computer plays the left bike,
 **O** obstacles, **F** fast speed.
 
+Playing alone (option **C**): the computer drives the left bike and the arrow keys
+(or W A S D) steer yours, the right bike.
+
 ## Tests
 
 Requires Node.js 20+:

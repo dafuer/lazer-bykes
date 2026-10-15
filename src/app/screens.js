@@ -18,9 +18,10 @@
     { col: 1, row: 9, text: '10 RACES WINS THE GAME.' },
     { col: 1, row: 11, text: 'LEFT PLAYER:  ARROW KEYS', color: COLOR.LEFT_BIKE },
     { col: 1, row: 12, text: 'RIGHT PLAYER: W A S D', color: COLOR.RIGHT_BIKE },
-    { col: 1, row: 14, text: 'THE COMPUTER CAN TAKE THE LEFT' },
-    { col: 1, row: 15, text: "PLAYER'S PLACE (MENU OPTION C)." },
-    { col: 1, row: 17, text: 'P PAUSES. ESC GOES BACK TO THE MENU.' },
+    { col: 1, row: 14, text: 'THE COMPUTER CAN TAKE THE LEFT BIKE' },
+    { col: 1, row: 15, text: '(MENU OPTION C): THEN THE ARROWS' },
+    { col: 1, row: 16, text: 'STEER YOUR RIGHT BIKE.' },
+    { col: 1, row: 18, text: 'P PAUSES. ESC GOES BACK TO THE MENU.' },
     { col: 1, row: 23, text: 'PRESS ANY KEY TO CONTINUE' },
   ];
 
