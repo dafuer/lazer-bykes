@@ -23,6 +23,7 @@ original are reproduced in this repository; every asset in the remake is newly d
   so trails look like dotted lines on a 2-px lattice. The left bike always sits on even
   coordinates, the right bike on odd ones, so the two trails never share a pixel.
 - Bikes are 8×8 sprites centred on the head (offset −4,−4), one image per direction.
+  The visible bike is slim: 3 pixels wide and 8 long (14 pixels set).
 - A crash plays an 8-frame 16×16 explosion sprite centred on the head (offset −8,−8).
 - Text row 23 (y 184–191) shows the score line: left score at column 8 (left colour),
   "- SCORES -" in dark yellow, right score at column 24 (right colour).
@@ -123,6 +124,7 @@ both bikes' directions; tone B is a constant ~58 Hz drone. The crash noise decay
 | STOP pauses | P pauses | No STOP key on PC keyboards |
 | A game can only be left at game over (M) | Esc returns to the menu at any time; M still works at game over | Convenience in a browser tab |
 | Text screens in a single colour (dark yellow) | Header rule in cyan; player control lines in each bike's colour | Readability: ties each control set to its bike |
+| ~12.5 ms / ~7 ms per half-step (estimate) | 13.125 ms / 7.35 ms | Slowed 5% after playtesting |
 | Engine runs as fast as the busy-wait allows | Movement catch-up is capped at 250 ms per frame | A hidden browser tab must not fast-forward the race |
 | SPACE or joystick fire restarts | SPACE or Enter | No joystick |
 | Title picture, sprites, font, border and obstacle tiles | Newly drawn | Original assets are not reused |

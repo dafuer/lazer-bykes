@@ -5,7 +5,8 @@ import {
 
 export { EXPLOSION_FRAMES };
 
-export const HALF_STEP_MS = Object.freeze({ normal: 12.5, fast: 7 });
+// Cycle-count estimate (12.5 / 7 ms) slowed down 5% after playtesting.
+export const HALF_STEP_MS = Object.freeze({ normal: 13.125, fast: 7.35 });
 export const EXPLOSION_FRAME_MS = 110;
 export const NEXT_RACE_DELAY_MS = 480;
 const MAX_FRAME_MS = 250;

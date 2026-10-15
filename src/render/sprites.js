@@ -1,8 +1,8 @@
 // Original sprite art: an 8x8 light-bike seen from above and a procedural 16x16 explosion.
 import { DIR, EXPLOSION_FRAMES } from '../core/game.js';
 
-// Facing up: front wheel, rider with handlebars, body, rear wheel.
-const BIKE_UP = [0x18, 0x3c, 0x18, 0x7e, 0x3c, 0x3c, 0x3c, 0x18];
+// Facing up, 3x8 and centred on column 4 (the trail): wheel tip, handlebars, frame, wide rear.
+const BIKE_UP = [0x08, 0x1c, 0x08, 0x08, 0x08, 0x08, 0x1c, 0x1c];
 
 const toGrid = (rows) => rows.map((row) => Array.from({ length: 8 }, (_, x) => (row >> (7 - x)) & 1));
 const rotateClockwise = (grid) => grid.map((_, y) => grid.map((_, x) => grid[grid.length - 1 - x][y]));

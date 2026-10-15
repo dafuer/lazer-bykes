@@ -30,3 +30,4 @@ Branch: `feat/lazer-bykes-remake` · Delivery: ask-on-risk · Test runner: `node
 - **L5** (2026-10-15) — User: "lo estás haciendo siguiendo gentle-ai". Confirmed ODD flow; this document created before the first source write.
 - **L6** — gga could not read `.gga` under macOS bash 3.2 (`source <(...)` loads nothing); fixed by installing Homebrew bash 5. gga review then rejected the core commit for a missing neutral-input test; fixed before committing.
 - **L7** — Pending: manual playtest in a browser and timing calibration against WebMSX.
+- **L8** (2026-10-15) — User: "funciona a 1 jugador?" / "la cabeza de la moto es más grande que la original" / "ralentizalo un 5%". Answer: yes, menu option C. Bike sprite redrawn at the original's measured size (3×8, own design). Half-step 12.5/7 ms → 13.125/7.35 ms. Tests: RED 2 → GREEN 43.

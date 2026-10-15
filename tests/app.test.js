@@ -45,22 +45,24 @@ test('menu key S starts the game and I shows the instructions; other keys do not
 const quietMatch = (overrides = {}) =>
   createMatch({ ...defaultSettings(), border: false, ...overrides }, () => 0);
 
-test('at normal speed one bike moves every 12.5 ms, at fast speed every 7 ms', () => {
-  assert.deepEqual(HALF_STEP_MS, { normal: 12.5, fast: 7 });
+test('the game runs 5% slower than the estimate: one move every 13.125 ms, or 7.35 ms in fast mode', () => {
+  assert.deepEqual(HALF_STEP_MS, { normal: 13.125, fast: 7.35 });
   const normal = quietMatch();
-  update(normal, 12);
+  update(normal, 13);
   assert.equal(normal.game.players[RIGHT].x, 223);
-  update(normal, 0.5);
+  update(normal, 0.125);
   assert.equal(normal.game.players[RIGHT].x, 221);
 
   const fast = quietMatch({ fast: true });
-  update(fast, 14);
+  update(fast, 7.3);
+  assert.equal(fast.game.players[RIGHT].x, 223);
+  update(fast, 7.7);
   assert.deepEqual([fast.game.players[RIGHT].x, fast.game.players[LEFT].x], [221, 42]);
 });
 
 test('each left-bike move reports the engine pitch', () => {
   const match = quietMatch();
-  assert.deepEqual(update(match, 25), [{ type: 'engine', coarse: 7 }]);
+  assert.deepEqual(update(match, HALF_STEP_MS.normal * 2), [{ type: 'engine', coarse: 7 }]);
 });
 
 const crashRightBike = (match) => {
@@ -123,7 +125,7 @@ test('pause freezes the race and mutes the sound until it is toggled again', () 
   assert.deepEqual(update(match, 100), []);
   assert.equal(match.game.players[RIGHT].x, 223);
   assert.deepEqual(togglePause(match), []);
-  update(match, 12.5);
+  update(match, HALF_STEP_MS.normal);
   assert.equal(match.game.players[RIGHT].x, 221);
 });
 
@@ -131,4 +133,15 @@ test('a long frame gap (hidden tab) is capped instead of fast-forwarding the rac
   const match = quietMatch();
   update(match, 60_000);
   assert.ok(match.game.players[RIGHT].x > 200);
+});
+
+test('bike sprites are 3 pixels wide and 8 long, centred on the trail', async () => {
+  const { BIKE } = await import('../src/render/sprites.js');
+  const box = (grid) => {
+    const xs = []; const ys = [];
+    grid.forEach((row, y) => row.forEach((on, x) => { if (on) { xs.push(x); ys.push(y); } }));
+    return { x: [Math.min(...xs), Math.max(...xs)], y: [Math.min(...ys), Math.max(...ys)] };
+  };
+  assert.deepEqual(box(BIKE[DIR.UP]), { x: [3, 5], y: [0, 7] });
+  assert.deepEqual(box(BIKE[DIR.RIGHT]), { x: [0, 7], y: [3, 5] });
 });
