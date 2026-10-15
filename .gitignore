@@ -1,0 +1,11 @@
+# Original game media is reference-only and must never be committed.
+*.zip
+*.dsk
+*.rom
+*.cas
+
+# Machine-local gentle-ai skill registry.
+.atl/
+
+node_modules/
+.DS_Store
