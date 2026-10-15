@@ -19,7 +19,7 @@ Branch: `feat/lazer-bykes-remake` · Delivery: ask-on-risk · Test runner: `node
 | T2 | S2 | inline | done (RED: module missing → GREEN 20 tests) | Core rules: movement, wrap, collision, turns, alternation, border, obstacles, races, scoring, game over |
 | T3 | S2 | inline | done (4 tests) | Computer player |
 | T4 | S2 | inline | done (RED: module missing → GREEN 5 tests) | PSG sound model + Web Audio adapter |
-| T5 | S1, S2, S3 | inline | pending | Renderer, original pixel art, keyboard input, screens (title, instructions, menu, game), game loop |
+| T5 | S1, S2, S3 | inline | done (RED: modules missing → GREEN 13 tests; offscreen screenshots checked) | Renderer, original pixel art, keyboard input, screens (title, instructions, menu, game), game loop |
 
 ## Log
 
@@ -28,3 +28,5 @@ Branch: `feat/lazer-bykes-remake` · Delivery: ask-on-risk · Test runner: `node
 - **L3** — Disk image holds a BASIC menu and a 2.5 KB Z80 engine; disassembled with z80dasm outside the repo. Findings recorded in `docs/original-analysis.md`. Timing values are estimates from cycle counts and need calibration against WebMSX.
 - **L4** — Decision: no extracted assets (title picture, sprites, tiles, font) are reused; all are redrawn. Key redefinition menu entries dropped because fixed controls were requested.
 - **L5** (2026-10-15) — User: "lo estás haciendo siguiendo gentle-ai". Confirmed ODD flow; this document created before the first source write.
+- **L6** — gga could not read `.gga` under macOS bash 3.2 (`source <(...)` loads nothing); fixed by installing Homebrew bash 5. gga review then rejected the core commit for a missing neutral-input test; fixed before committing.
+- **L7** — Pending: manual playtest in a browser and timing calibration against WebMSX.

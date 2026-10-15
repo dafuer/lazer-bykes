@@ -11,6 +11,8 @@ export {
 export const LEFT = 0;
 export const RIGHT = 1;
 export const WIN_SCORE = 10;
+/** Frames in the crash explosion animation. */
+export const EXPLOSION_FRAMES = 8;
 
 const WALL = 3;
 const OBSTACLE_COUNT = 3;

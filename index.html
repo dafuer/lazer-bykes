@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lazer Bykes</title>
+  <style>
+    :root {
+      --bg: #000;
+      --fg: #9a9a9a;
+      --frame: #1a1a1a;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--fg);
+      font: 14px/1.5 system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 16px;
+    }
+    canvas {
+      display: block;
+      width: min(100%, calc((100vh - 80px) * 4 / 3), 1024px);
+      aspect-ratio: 4 / 3;
+      image-rendering: pixelated;
+      border: 8px solid var(--frame);
+    }
+    p { margin: 0; text-align: center; }
+    kbd {
+      border: 1px solid #444;
+      border-radius: 3px;
+      padding: 0 4px;
+      font-family: ui-monospace, monospace;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="screen" width="256" height="192" aria-label="Lazer Bykes game screen"></canvas>
+  <p>Left bike: <kbd>↑</kbd> <kbd>←</kbd> <kbd>↓</kbd> <kbd>→</kbd> · Right bike: <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> · <kbd>P</kbd> pause · <kbd>Esc</kbd> menu</p>
+  <script type="module" src="src/app/main.js"></script>
+</body>
+</html>

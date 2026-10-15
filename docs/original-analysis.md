@@ -121,6 +121,9 @@ both bikes' directions; tone B is a constant ~58 Hz drone. The crash noise decay
 | Left: Q/A/CTRL/SHIFT or joystick 1; right: cursor keys or joystick 2 | Player 1 (left bike): arrow keys. Player 2 (right bike): W/A/S/D | Requested controls |
 | Keys can be redefined (U/R/D/L menu entries) | Not offered | Fixed controls requested |
 | STOP pauses | P pauses | No STOP key on PC keyboards |
+| A game can only be left at game over (M) | Esc returns to the menu at any time; M still works at game over | Convenience in a browser tab |
+| Text screens in a single colour (dark yellow) | Header rule in cyan; player control lines in each bike's colour | Readability: ties each control set to its bike |
+| Engine runs as fast as the busy-wait allows | Movement catch-up is capped at 250 ms per frame | A hidden browser tab must not fast-forward the race |
 | SPACE or joystick fire restarts | SPACE or Enter | No joystick |
 | Title picture, sprites, font, border and obstacle tiles | Newly drawn | Original assets are not reused |
 | Publisher credits screen | Tribute credits screen | Not our publication |
