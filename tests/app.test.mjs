@@ -137,29 +137,33 @@ test('a long frame gap (hidden tab) is capped instead of fast-forwarding the rac
   assert.ok(match.game.players[RIGHT].x > 200);
 });
 
-test('bike sprites are 3 pixels wide and 8 long, centred on the trail', () => {
-  const { BIKE } = LB.sprites;
-  const box = (grid) => {
-    const xs = []; const ys = [];
-    grid.forEach((row, y) => row.forEach((on, x) => { if (on) { xs.push(x); ys.push(y); } }));
-    return { x: [Math.min(...xs), Math.max(...xs)], y: [Math.min(...ys), Math.max(...ys)] };
-  };
-  assert.deepEqual(box(BIKE[DIR.UP]), { x: [3, 5], y: [0, 7] });
-  assert.deepEqual(box(BIKE[DIR.RIGHT]), { x: [0, 7], y: [3, 5] });
-});
-
-test('the bike is a 1-pixel line with a 3x3 block behind a 1-pixel tip', () => {
+test('the bike is a 1-pixel line with a 3x3 block behind a 1-pixel tip, the head at the grid centre', () => {
   const up = LB.sprites.BIKE[DIR.UP].map((row) => row.join('')).join('/');
   assert.equal(up, [
-    '00001000',
-    '00011100',
-    '00011100',
-    '00011100',
-    '00001000',
-    '00001000',
-    '00001000',
-    '00001000',
+    '000010000',
+    '000111000',
+    '000111000',
+    '000111000',
+    '000010000',
+    '000010000',
+    '000010000',
+    '000010000',
+    '000000000',
   ].join('/'));
+});
+
+test('in every direction the bike stays centred on its trail', () => {
+  const HEAD = 4;
+  const behind = { [DIR.UP]: [0, 1], [DIR.RIGHT]: [-1, 0], [DIR.DOWN]: [0, -1], [DIR.LEFT]: [1, 0] };
+  for (const dir of [DIR.UP, DIR.RIGHT, DIR.DOWN, DIR.LEFT]) {
+    const grid = LB.sprites.BIKE[dir];
+    const vertical = dir === DIR.UP || dir === DIR.DOWN;
+    const across = [];
+    grid.forEach((row, y) => row.forEach((on, x) => { if (on) across.push(vertical ? x : y); }));
+    assert.deepEqual([Math.min(...across), Math.max(...across)], [HEAD - 1, HEAD + 1], `dir ${dir}`);
+    const [bx, by] = behind[dir];
+    for (let k = 0; k <= 3; k++) assert.equal(grid[HEAD + by * k][HEAD + bx * k], 1, `dir ${dir} neck ${k}`);
+  }
 });
 
 test('an obstacle is a hollow 16x16 square with a 2x2 dot in the middle', () => {

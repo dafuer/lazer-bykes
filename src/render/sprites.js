@@ -4,18 +4,37 @@
 
   const { DIR, EXPLOSION_FRAMES } = LB.game;
 
-  // Facing up, 3x8 and centred on column 4 (the trail): a 1-pixel tip, a 3x3 block, then a 1-pixel line.
-  const BIKE_UP = [0x08, 0x1c, 0x1c, 0x1c, 0x08, 0x08, 0x08, 0x08];
+  // Bike pixels as offsets from the head, facing up: a 1-pixel tip, a 3x3 block, then the
+  // 1-pixel neck running back along the trail.
+  const BIKE_UP = [
+    [0, -4],
+    [-1, -3], [0, -3], [1, -3],
+    [-1, -2], [0, -2], [1, -2],
+    [-1, -1], [0, -1], [1, -1],
+    [0, 0], [0, 1], [0, 2], [0, 3],
+  ];
+  // Grids are 9x9 with the head at (4, 4), drawn at (x - 4, y - 4), so every rotation
+  // turns around the head pixel and the neck always lies on the trail.
+  const HEAD = 4;
 
-  const toGrid = (rows) => rows.map((row) => Array.from({ length: 8 }, (_, x) => (row >> (7 - x)) & 1));
-  const rotateClockwise = (grid) => grid.map((_, y) => grid.map((_, x) => grid[grid.length - 1 - x][y]));
+  const rotateClockwise = (offsets) => offsets.map(([dx, dy]) => [-dy, dx]);
 
-  const up = toGrid(BIKE_UP);
-  const right = rotateClockwise(up);
+  const toGrid = (offsets) => {
+    const grid = Array.from({ length: 2 * HEAD + 1 }, () => new Array(2 * HEAD + 1).fill(0));
+    for (const [dx, dy] of offsets) grid[HEAD + dy][HEAD + dx] = 1;
+    return grid;
+  };
+
+  const right = rotateClockwise(BIKE_UP);
   const down = rotateClockwise(right);
   const left = rotateClockwise(down);
 
-  const BIKE = { [DIR.UP]: up, [DIR.RIGHT]: right, [DIR.DOWN]: down, [DIR.LEFT]: left };
+  const BIKE = {
+    [DIR.UP]: toGrid(BIKE_UP),
+    [DIR.RIGHT]: toGrid(right),
+    [DIR.DOWN]: toGrid(down),
+    [DIR.LEFT]: toGrid(left),
+  };
 
   function explosionFrame(frame) {
     const grid = Array.from({ length: 16 }, () => new Array(16).fill(0));
