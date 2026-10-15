@@ -147,32 +147,37 @@ test('a long frame gap (hidden tab) is capped instead of fast-forwarding the rac
   assert.ok(match.game.players[RIGHT].x > 200);
 });
 
-test('the bike is a 1-pixel line with a 3x3 block behind a 1-pixel tip, the head at the grid centre', () => {
+test('the bike is a 3x3 block centred on the head with a 1-pixel tip in front, and no neck', () => {
   const up = LB.sprites.BIKE[DIR.UP].map((row) => row.join('')).join('/');
   assert.equal(up, [
+    '000000000',
+    '000000000',
     '000010000',
     '000111000',
     '000111000',
     '000111000',
-    '000010000',
-    '000010000',
-    '000010000',
-    '000010000',
+    '000000000',
+    '000000000',
     '000000000',
   ].join('/'));
 });
 
-test('in every direction the bike stays centred on its trail', () => {
+test('in every direction the bike is centred on its head and nothing trails behind the block', () => {
   const HEAD = 4;
-  const behind = { [DIR.UP]: [0, 1], [DIR.RIGHT]: [-1, 0], [DIR.DOWN]: [0, -1], [DIR.LEFT]: [1, 0] };
+  const forward = { [DIR.UP]: [0, -1], [DIR.RIGHT]: [1, 0], [DIR.DOWN]: [0, 1], [DIR.LEFT]: [-1, 0] };
   for (const dir of [DIR.UP, DIR.RIGHT, DIR.DOWN, DIR.LEFT]) {
     const grid = LB.sprites.BIKE[dir];
-    const vertical = dir === DIR.UP || dir === DIR.DOWN;
+    const [fx, fy] = forward[dir];
     const across = [];
-    grid.forEach((row, y) => row.forEach((on, x) => { if (on) across.push(vertical ? x : y); }));
-    assert.deepEqual([Math.min(...across), Math.max(...across)], [HEAD - 1, HEAD + 1], `dir ${dir}`);
-    const [bx, by] = behind[dir];
-    for (let k = 0; k <= 3; k++) assert.equal(grid[HEAD + by * k][HEAD + bx * k], 1, `dir ${dir} neck ${k}`);
+    const along = [];
+    grid.forEach((row, y) => row.forEach((on, x) => {
+      if (!on) return;
+      across.push(fx ? y : x);
+      along.push((x - HEAD) * fx + (y - HEAD) * fy);
+    }));
+    assert.equal(grid[HEAD][HEAD], 1, `dir ${dir} head`);
+    assert.deepEqual([Math.min(...across), Math.max(...across)], [HEAD - 1, HEAD + 1], `dir ${dir} across`);
+    assert.deepEqual([Math.min(...along), Math.max(...along)], [-1, 2], `dir ${dir} along`);
   }
 });
 

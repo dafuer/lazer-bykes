@@ -4,17 +4,16 @@
 
   const { DIR, EXPLOSION_FRAMES } = LB.game;
 
-  // Bike pixels as offsets from the head, facing up: a 1-pixel tip, a 3x3 block, then the
-  // 1-pixel neck running back along the trail.
+  // Bike pixels as offsets from the head, facing up: a 3x3 block centred on the head and a
+  // 1-pixel tip in front. Nothing trails behind, so turns pivot on the head.
   const BIKE_UP = [
-    [0, -4],
-    [-1, -3], [0, -3], [1, -3],
-    [-1, -2], [0, -2], [1, -2],
+    [0, -2],
     [-1, -1], [0, -1], [1, -1],
-    [0, 0], [0, 1], [0, 2], [0, 3],
+    [-1, 0], [0, 0], [1, 0],
+    [-1, 1], [0, 1], [1, 1],
   ];
   // Grids are 9x9 with the head at (4, 4), drawn at (x - 4, y - 4), so every rotation
-  // turns around the head pixel and the neck always lies on the trail.
+  // turns around the head pixel and stays centred on the trail.
   const HEAD = 4;
 
   const rotateClockwise = (offsets) => offsets.map(([dx, dy]) => [-dy, dx]);
