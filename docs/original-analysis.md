@@ -23,7 +23,10 @@ original are reproduced in this repository; every asset in the remake is newly d
   so trails look like dotted lines on a 2-px lattice. The left bike always sits on even
   coordinates, the right bike on odd ones, so the two trails never share a pixel.
 - Bikes are 8×8 sprites centred on the head (offset −4,−4), one image per direction.
-  The visible bike is slim: 3 pixels wide and 8 long (14 pixels set).
+  The visible bike is slim: 3 pixels wide and 8 long (14 pixels set). Seen on screen it is a
+  1-pixel line with a 3×3 block just behind a 1-pixel tip.
+- Obstacles look like hollow 16×16 squares (1-pixel outline) with a small dot in the centre.
+- The border is two thin parallel lines.
 - A crash plays an 8-frame 16×16 explosion sprite centred on the head (offset −8,−8).
 - Text row 23 (y 184–191) shows the score line: left score at column 8 (left colour),
   "- SCORES -" in dark yellow, right score at column 24 (right colour).

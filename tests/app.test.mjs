@@ -147,3 +147,29 @@ test('bike sprites are 3 pixels wide and 8 long, centred on the trail', () => {
   assert.deepEqual(box(BIKE[DIR.UP]), { x: [3, 5], y: [0, 7] });
   assert.deepEqual(box(BIKE[DIR.RIGHT]), { x: [0, 7], y: [3, 5] });
 });
+
+test('the bike is a 1-pixel line with a 3x3 block behind a 1-pixel tip', () => {
+  const up = LB.sprites.BIKE[DIR.UP].map((row) => row.join('')).join('/');
+  assert.equal(up, [
+    '00001000',
+    '00011100',
+    '00011100',
+    '00011100',
+    '00001000',
+    '00001000',
+    '00001000',
+    '00001000',
+  ].join('/'));
+});
+
+test('an obstacle is a hollow 16x16 square with a 2x2 dot in the middle', () => {
+  const grid = LB.sprites.OBSTACLE;
+  const set = [];
+  grid.forEach((row, y) => row.forEach((on, x) => { if (on) set.push(`${x},${y}`); }));
+  const edge = (x, y) => x === 0 || y === 0 || x === 15 || y === 15;
+  const dot = (x, y) => (x === 7 || x === 8) && (y === 7 || y === 8);
+  for (let y = 0; y < 16; y++) {
+    for (let x = 0; x < 16; x++) assert.equal(grid[y][x], edge(x, y) || dot(x, y) ? 1 : 0, `${x},${y}`);
+  }
+  assert.equal(set.length, 60 + 4);
+});

@@ -4,8 +4,8 @@
 
   const { DIR, EXPLOSION_FRAMES } = LB.game;
 
-  // Facing up, 3x8 and centred on column 4 (the trail): wheel tip, handlebars, frame, wide rear.
-  const BIKE_UP = [0x08, 0x1c, 0x08, 0x08, 0x08, 0x08, 0x1c, 0x1c];
+  // Facing up, 3x8 and centred on column 4 (the trail): a 1-pixel tip, a 3x3 block, then a 1-pixel line.
+  const BIKE_UP = [0x08, 0x1c, 0x1c, 0x1c, 0x08, 0x08, 0x08, 0x08];
 
   const toGrid = (rows) => rows.map((row) => Array.from({ length: 8 }, (_, x) => (row >> (7 - x)) & 1));
   const rotateClockwise = (grid) => grid.map((_, y) => grid.map((_, x) => grid[grid.length - 1 - x][y]));
@@ -40,11 +40,11 @@
 
   const EXPLOSION = Array.from({ length: EXPLOSION_FRAMES }, (_, f) => explosionFrame(f));
 
-  // 16x16 obstacle block: outlined, with a 2-pixel checker inside.
+  // 16x16 obstacle: hollow 1-pixel square with a 2x2 dot in the middle.
   const OBSTACLE = Array.from({ length: 16 }, (_, y) => Array.from({ length: 16 }, (_, x) => {
-    if (x === 0 || y === 0 || x === 15 || y === 15) return 1;
-    if (x === 1 || y === 1 || x === 14 || y === 14) return 0;
-    return ((x >> 1) + (y >> 1)) % 2;
+    const edge = x === 0 || y === 0 || x === 15 || y === 15;
+    const dot = (x === 7 || x === 8) && (y === 7 || y === 8);
+    return edge || dot ? 1 : 0;
   }));
 
   LB.sprites = {

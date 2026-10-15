@@ -92,9 +92,9 @@
     }
 
     #border() {
-      // Inner line sits on the wall cells; the outer line gives the frame its depth.
-      this.#frame(14, 5, 249, 176, COLOR.BORDER, 2);
-      this.#frame(10, 1, 253, 180, COLOR.BORDER, 1);
+      // Two thin lines; the inner one sits on the first wall cells.
+      this.#frame(14, 6, 248, 175, COLOR.BORDER);
+      this.#frame(12, 4, 250, 177, COLOR.BORDER);
     }
 
     #trail(trail) {
