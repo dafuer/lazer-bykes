@@ -1,113 +1,117 @@
 // Browser entry point: screens, keyboard, game loop and sound.
-import { setInput, LEFT } from '../core/game.js';
-import { steerFor } from '../input/keyboard.js';
-import { Sound } from '../audio/sound.js';
-import { Renderer } from '../render/renderer.js';
-import { defaultSettings, menuKey } from './menu.js';
-import { createMatch, restart, togglePause, update } from './match.js';
-import { instructionsLines, menuLines } from './screens.js';
+(function (LB) {
+  'use strict';
 
-const BLINK_MS = 400;
-const GAME_KEYS = new Set(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space']);
+  const { setInput, LEFT } = LB.game;
+  const { steerFor } = LB.keyboard;
+  const { Sound } = LB.sound;
+  const { Renderer } = LB.renderer;
+  const { defaultSettings, menuKey } = LB.menu;
+  const { createMatch, restart, togglePause, update } = LB.match;
+  const { instructionsLines, menuLines } = LB.screens;
 
-const renderer = new Renderer(document.getElementById('screen'));
-const sound = new Sound();
-const rng = (n) => Math.floor(Math.random() * n);
+  const BLINK_MS = 400;
+  const GAME_KEYS = new Set(['ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Space']);
 
-const state = {
-  screen: 'title',
-  settings: defaultSettings(),
-  match: null,
-};
+  const renderer = new Renderer(document.getElementById('screen'));
+  const sound = new Sound();
+  const rng = (n) => Math.floor(Math.random() * n);
 
-function goToMenu() {
-  sound.silence();
-  state.match = null;
-  state.screen = 'menu';
-}
+  const state = {
+    screen: 'title',
+    settings: defaultSettings(),
+    match: null,
+  };
 
-function onKey(event) {
-  sound.unlock();
-  if (GAME_KEYS.has(event.code)) event.preventDefault();
-  if (event.repeat && state.screen !== 'game') return;
+  function goToMenu() {
+    sound.silence();
+    state.match = null;
+    state.screen = 'menu';
+  }
 
-  switch (state.screen) {
-    case 'title':
-      state.screen = 'instructions';
-      break;
-    case 'instructions':
-      state.screen = 'menu';
-      break;
-    case 'menu': {
-      const { action, settings } = menuKey(state.settings, event.key);
-      state.settings = settings;
-      if (action === 'instructions') state.screen = 'instructions';
-      if (action === 'start') {
-        state.match = createMatch(state.settings, rng);
-        state.screen = 'game';
+  function onKey(event) {
+    sound.unlock();
+    if (GAME_KEYS.has(event.code)) event.preventDefault();
+    if (event.repeat && state.screen !== 'game') return;
+
+    switch (state.screen) {
+      case 'title':
+        state.screen = 'instructions';
+        break;
+      case 'instructions':
+        state.screen = 'menu';
+        break;
+      case 'menu': {
+        const { action, settings } = menuKey(state.settings, event.key);
+        state.settings = settings;
+        if (action === 'instructions') state.screen = 'instructions';
+        if (action === 'start') {
+          state.match = createMatch(state.settings, rng);
+          state.screen = 'game';
+        }
+        break;
       }
-      break;
+      case 'game':
+        onGameKey(event);
+        break;
+      default:
+        break;
     }
-    case 'game':
-      onGameKey(event);
-      break;
-    default:
-      break;
   }
-}
 
-function onGameKey(event) {
-  const { match } = state;
-  if (event.code === 'Escape') return goToMenu();
+  function onGameKey(event) {
+    const { match } = state;
+    if (event.code === 'Escape') return goToMenu();
 
-  if (match.phase === 'over') {
-    if (event.code === 'Space' || event.code === 'Enter') restart(match);
-    if (event.code === 'KeyM') goToMenu();
-    return;
+    if (match.phase === 'over') {
+      if (event.code === 'Space' || event.code === 'Enter') restart(match);
+      if (event.code === 'KeyM') goToMenu();
+      return;
+    }
+    if (event.code === 'KeyP') {
+      play(togglePause(match));
+      return;
+    }
+    const steer = steerFor(event.code);
+    if (steer && !(steer.player === LEFT && match.game.settings.computer)) {
+      setInput(match.game, steer.player, steer.dir);
+    }
   }
-  if (event.code === 'KeyP') {
-    play(togglePause(match));
-    return;
-  }
-  const steer = steerFor(event.code);
-  if (steer && !(steer.player === LEFT && match.game.settings.computer)) {
-    setInput(match.game, steer.player, steer.dir);
-  }
-}
 
-function play(events) {
-  for (const event of events) {
-    if (event.type === 'engine') sound.engine(event.coarse);
-    else if (event.type === 'crash') sound.crash();
-    else if (event.type === 'silence') sound.silence();
+  function play(events) {
+    for (const event of events) {
+      if (event.type === 'engine') sound.engine(event.coarse);
+      else if (event.type === 'crash') sound.crash();
+      else if (event.type === 'silence') sound.silence();
+    }
   }
-}
 
-let last = performance.now();
-function frame(now) {
-  const dt = now - last;
-  last = now;
-  const blinkOn = Math.floor(now / BLINK_MS) % 2 === 0;
+  let last = performance.now();
+  function frame(now) {
+    const dt = now - last;
+    last = now;
+    const blinkOn = Math.floor(now / BLINK_MS) % 2 === 0;
 
-  switch (state.screen) {
-    case 'title':
-      renderer.title(blinkOn);
-      break;
-    case 'instructions':
-      renderer.textScreen(instructionsLines());
-      break;
-    case 'menu':
-      renderer.textScreen(menuLines(state.settings, blinkOn));
-      break;
-    case 'game':
-      play(update(state.match, dt));
-      if (state.match) renderer.match(state.match);
-      break;
-    default:
-      break;
+    switch (state.screen) {
+      case 'title':
+        renderer.title(blinkOn);
+        break;
+      case 'instructions':
+        renderer.textScreen(instructionsLines());
+        break;
+      case 'menu':
+        renderer.textScreen(menuLines(state.settings, blinkOn));
+        break;
+      case 'game':
+        play(update(state.match, dt));
+        if (state.match) renderer.match(state.match);
+        break;
+      default:
+        break;
+    }
+    requestAnimationFrame(frame);
   }
+
+  window.addEventListener('keydown', onKey);
   requestAnimationFrame(frame);
-}
-
-window.addEventListener('keydown', onKey);
-requestAnimationFrame(frame);
+})(globalThis.LazerBykes ??= {});

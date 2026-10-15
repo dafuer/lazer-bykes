@@ -1,7 +1,7 @@
 # Feature: lazer-bykes browser remake
 
 Objective: faithful HTML5 remake of the MSX game Lazer Bykes, behaviour per `docs/original-analysis.md`.
-Branch: `feat/lazer-bykes-remake` · Delivery: ask-on-risk · Test runner: `node --test tests/` (`npm test`).
+Branch: `feat/lazer-bykes-remake` · Delivery: ask-on-risk · Test runner: `node --test "tests/*.test.mjs"`.
 
 ## Specs
 
@@ -9,6 +9,7 @@ Branch: `feat/lazer-bykes-remake` · Delivery: ask-on-risk · Test runner: `node
 - **S2** — "Quiero hacer una copia exacta, incluyendo hasta sonidos." Gameplay rules, coordinates, timing, options, scoring and PSG sound behaviour match `docs/original-analysis.md`. Graphics and sound are newly made in the original's style (assumption: original assets are not reused; agreed constraint).
 - **S3** — "Las teclas deben ser las flechas para el jugador 1 y el awsd para el jugador 2." Assumption: player 1 = left bike (listed first in the original and replaced by the computer), player 2 = right bike.
 - **S4** — "quiero que hagas ingenieria inversa de ese fichero para hacer un buen clon en HTML". The analysis lives in `docs/original-analysis.md`; the original media is never committed (`.gitignore`).
+- **S6** — "se podría hacer sin necesitar npm?" / "quiero que sea un doble click en index.html". Opens from `file://`; tests run with plain `node --test`.
 - **S5** — "Quiero programarlo con gentle-ai". ODD workflow, test-first core, work-unit commits reviewed by gga.
 
 ## Tasks
@@ -19,6 +20,7 @@ Branch: `feat/lazer-bykes-remake` · Delivery: ask-on-risk · Test runner: `node
 | T2 | S2 | inline | done (RED: module missing → GREEN 20 tests) | Core rules: movement, wrap, collision, turns, alternation, border, obstacles, races, scoring, game over |
 | T3 | S2 | inline | done (4 tests) | Computer player |
 | T4 | S2 | inline | done (RED: module missing → GREEN 5 tests) | PSG sound model + Web Audio adapter |
+| T6 | S1, S6 | inline | done (43 tests green after conversion; stubbed-DOM smoke load) | Classic scripts, no npm, double-click `index.html` |
 | T5 | S1, S2, S3 | inline | done (RED: modules missing → GREEN 13 tests; offscreen screenshots checked) | Renderer, original pixel art, keyboard input, screens (title, instructions, menu, game), game loop |
 
 ## Log
@@ -31,3 +33,5 @@ Branch: `feat/lazer-bykes-remake` · Delivery: ask-on-risk · Test runner: `node
 - **L6** — gga could not read `.gga` under macOS bash 3.2 (`source <(...)` loads nothing); fixed by installing Homebrew bash 5. gga review then rejected the core commit for a missing neutral-input test; fixed before committing.
 - **L7** — Pending: manual playtest in a browser and timing calibration against WebMSX.
 - **L8** (2026-10-15) — User: "funciona a 1 jugador?" / "la cabeza de la moto es más grande que la original" / "ralentizalo un 5%". Answer: yes, menu option C. Bike sprite redrawn at the original's measured size (3×8, own design). Half-step 12.5/7 ms → 13.125/7.35 ms. Tests: RED 2 → GREEN 43.
+- **L9** (2026-10-15) — User: "el \"sprite\" de la cabeza tiene una forma completamente distinta" / "el dibujo de los obstaculos también es distinto al original" / "se podría hacer sin necesitar npm?". Then: "el juego no tiene copyright porque ya han pasado muchoz años, además, al estar reescrito en otro lenguaje no hay ningún problema de licencia. no quiero usar un .dsk. quiero que sea un doble click en index.html".
+- **L10** — Decision kept: original pixel art is not copied (a 1985 game is still under copyright; a pixel-for-pixel bitmap is a copy in any language). Own designs can be reshaped from a description. Converted ES modules to classic IIFE scripts on `globalThis.LazerBykes`; removed `package.json`.

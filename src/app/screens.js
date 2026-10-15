@@ -1,40 +1,49 @@
 // Text for the instructions and menu screens (39-column text mode).
-import { COLOR } from '../render/palette.js';
+(function (LB) {
+  'use strict';
 
-const header = [
-  { col: 9, row: 0, text: '-------------', color: COLOR.BORDER },
-  { col: 9, row: 1, text: ' LAZER BYKES ' },
-  { col: 9, row: 2, text: '-------------', color: COLOR.BORDER },
-];
+  const { COLOR } = LB.palette;
 
-export const instructionsLines = () => [
-  ...header,
-  { col: 1, row: 5, text: 'INSTRUCTIONS:' },
-  { col: 1, row: 7, text: 'TRAP YOUR RIVAL: MAKE THEM CRASH INTO' },
-  { col: 1, row: 8, text: 'A TRAIL OR A WALL. THE FIRST TO WIN' },
-  { col: 1, row: 9, text: '10 RACES WINS THE GAME.' },
-  { col: 1, row: 11, text: 'LEFT PLAYER:  ARROW KEYS', color: COLOR.LEFT_BIKE },
-  { col: 1, row: 12, text: 'RIGHT PLAYER: W A S D', color: COLOR.RIGHT_BIKE },
-  { col: 1, row: 14, text: 'THE COMPUTER CAN TAKE THE LEFT' },
-  { col: 1, row: 15, text: "PLAYER'S PLACE (MENU OPTION C)." },
-  { col: 1, row: 17, text: 'P PAUSES. ESC GOES BACK TO THE MENU.' },
-  { col: 1, row: 23, text: 'PRESS ANY KEY TO CONTINUE' },
-];
+  const header = [
+    { col: 9, row: 0, text: '-------------', color: COLOR.BORDER },
+    { col: 9, row: 1, text: ' LAZER BYKES ' },
+    { col: 9, row: 2, text: '-------------', color: COLOR.BORDER },
+  ];
 
-const onOff = (value) => (value ? 'ON ' : 'OFF');
+  const instructionsLines = () => [
+    ...header,
+    { col: 1, row: 5, text: 'INSTRUCTIONS:' },
+    { col: 1, row: 7, text: 'TRAP YOUR RIVAL: MAKE THEM CRASH INTO' },
+    { col: 1, row: 8, text: 'A TRAIL OR A WALL. THE FIRST TO WIN' },
+    { col: 1, row: 9, text: '10 RACES WINS THE GAME.' },
+    { col: 1, row: 11, text: 'LEFT PLAYER:  ARROW KEYS', color: COLOR.LEFT_BIKE },
+    { col: 1, row: 12, text: 'RIGHT PLAYER: W A S D', color: COLOR.RIGHT_BIKE },
+    { col: 1, row: 14, text: 'THE COMPUTER CAN TAKE THE LEFT' },
+    { col: 1, row: 15, text: "PLAYER'S PLACE (MENU OPTION C)." },
+    { col: 1, row: 17, text: 'P PAUSES. ESC GOES BACK TO THE MENU.' },
+    { col: 1, row: 23, text: 'PRESS ANY KEY TO CONTINUE' },
+  ];
 
-export const menuLines = (settings, cursorOn) => [
-  ...header,
-  { col: 1, row: 3, text: 'MENU' },
-  { col: 6, row: 4, text: 'S START GAME' },
-  { col: 6, row: 6, text: 'I SEE INSTRUCTIONS' },
-  { col: 6, row: 8, text: 'B BORDER ON/OFF' },
-  { col: 6, row: 10, text: 'C COMPUTER PLAYER ON/OFF' },
-  { col: 6, row: 12, text: 'O OBSTACLES ON/OFF' },
-  { col: 6, row: 14, text: 'F FAST SPEED ON/OFF' },
-  { col: 1, row: 8, text: onOff(settings.border) },
-  { col: 1, row: 10, text: onOff(settings.computer) },
-  { col: 1, row: 12, text: onOff(settings.obstacles) },
-  { col: 1, row: 14, text: onOff(settings.fast) },
-  { col: 1, row: 22, text: `ENTER OPTION: ${cursorOn ? '_' : ' '}` },
-];
+  const onOff = (value) => (value ? 'ON ' : 'OFF');
+
+  const menuLines = (settings, cursorOn) => [
+    ...header,
+    { col: 1, row: 3, text: 'MENU' },
+    { col: 6, row: 4, text: 'S START GAME' },
+    { col: 6, row: 6, text: 'I SEE INSTRUCTIONS' },
+    { col: 6, row: 8, text: 'B BORDER ON/OFF' },
+    { col: 6, row: 10, text: 'C COMPUTER PLAYER ON/OFF' },
+    { col: 6, row: 12, text: 'O OBSTACLES ON/OFF' },
+    { col: 6, row: 14, text: 'F FAST SPEED ON/OFF' },
+    { col: 1, row: 8, text: onOff(settings.border) },
+    { col: 1, row: 10, text: onOff(settings.computer) },
+    { col: 1, row: 12, text: onOff(settings.obstacles) },
+    { col: 1, row: 14, text: onOff(settings.fast) },
+    { col: 1, row: 22, text: `ENTER OPTION: ${cursorOn ? '_' : ' '}` },
+  ];
+
+  LB.screens = {
+    instructionsLines,
+    menuLines,
+  };
+})(globalThis.LazerBykes ??= {});

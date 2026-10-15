@@ -1,29 +1,45 @@
 // AY-3-8910 model: turns the register values measured in docs/original-analysis.md
 // ("Sound") into frequencies and amplitudes for the Web Audio adapter.
-export const CLOCK = 3579545;
+(function (LB) {
+  'use strict';
 
-const TONE_B_PERIOD = 0xf00;
-const NOISE_PERIOD = 31;
-const ENVELOPE_PERIOD = 0x3000;
+  const CLOCK = 3579545;
 
-export const TONE_A_VOLUME = 15;
-export const TONE_B_VOLUME = 9;
+  const TONE_B_PERIOD = 0xf00;
+  const NOISE_PERIOD = 31;
+  const ENVELOPE_PERIOD = 0x3000;
 
-export const toneFrequency = (period) => CLOCK / (16 * period);
+  const TONE_A_VOLUME = 15;
+  const TONE_B_VOLUME = 9;
 
-/** Engine tones for a coarse period on tone A (fine period is always 0). */
-export const engineFrequencies = (coarse) => ({
-  a: toneFrequency(coarse * 256),
-  b: toneFrequency(TONE_B_PERIOD),
-});
+  const toneFrequency = (period) => CLOCK / (16 * period);
 
-/** Amplitude of a 4-bit PSG volume level (3 dB per step, 0 is silent). */
-export const volumeAmplitude = (level) => (level <= 0 ? 0 : 2 ** ((level - 15) / 2));
+  /** Engine tones for a coarse period on tone A (fine period is always 0). */
+  const engineFrequencies = (coarse) => ({
+    a: toneFrequency(coarse * 256),
+    b: toneFrequency(TONE_B_PERIOD),
+  });
 
-export const NOISE_RATE = CLOCK / (16 * NOISE_PERIOD);
+  /** Amplitude of a 4-bit PSG volume level (3 dB per step, 0 is silent). */
+  const volumeAmplitude = (level) => (level <= 0 ? 0 : 2 ** ((level - 15) / 2));
 
-/** Envelope shape 0: one decay from 15 to 0, then silence. */
-export const CRASH_DECAY_SECONDS = (256 * ENVELOPE_PERIOD) / CLOCK;
+  const NOISE_RATE = CLOCK / (16 * NOISE_PERIOD);
 
-export const decayCurve = () =>
-  Array.from({ length: 16 }, (_, step) => volumeAmplitude(15 - step));
+  /** Envelope shape 0: one decay from 15 to 0, then silence. */
+  const CRASH_DECAY_SECONDS = (256 * ENVELOPE_PERIOD) / CLOCK;
+
+  const decayCurve = () =>
+    Array.from({ length: 16 }, (_, step) => volumeAmplitude(15 - step));
+
+  LB.psg = {
+    CLOCK,
+    TONE_A_VOLUME,
+    TONE_B_VOLUME,
+    toneFrequency,
+    engineFrequencies,
+    volumeAmplitude,
+    NOISE_RATE,
+    CRASH_DECAY_SECONDS,
+    decayCurve,
+  };
+})(globalThis.LazerBykes ??= {});

@@ -42,6 +42,20 @@
 <body>
   <canvas id="screen" width="256" height="192" aria-label="Lazer Bykes game screen"></canvas>
   <p>Left bike: <kbd>↑</kbd> <kbd>←</kbd> <kbd>↓</kbd> <kbd>→</kbd> · Right bike: <kbd>W</kbd> <kbd>A</kbd> <kbd>S</kbd> <kbd>D</kbd> · <kbd>P</kbd> pause · <kbd>Esc</kbd> menu</p>
-  <script type="module" src="src/app/main.js"></script>
+  <!-- Classic scripts so the game opens with a double click (file://). Order matters. -->
+  <script src="src/core/field.js"></script>
+  <script src="src/core/ai.js"></script>
+  <script src="src/core/game.js"></script>
+  <script src="src/audio/psg.js"></script>
+  <script src="src/audio/sound.js"></script>
+  <script src="src/input/keyboard.js"></script>
+  <script src="src/app/menu.js"></script>
+  <script src="src/app/match.js"></script>
+  <script src="src/render/palette.js"></script>
+  <script src="src/render/font.js"></script>
+  <script src="src/render/sprites.js"></script>
+  <script src="src/render/renderer.js"></script>
+  <script src="src/app/screens.js"></script>
+  <script src="src/app/main.js"></script>
 </body>
 </html>

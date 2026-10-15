@@ -1,13 +1,22 @@
 // Options menu: S start, I instructions, B/C/O/F toggle border, computer, obstacles, fast.
-const TOGGLES = { B: 'border', C: 'computer', O: 'obstacles', F: 'fast' };
-const ACTIONS = { S: 'start', I: 'instructions' };
+(function (LB) {
+  'use strict';
 
-export const defaultSettings = () => ({ border: true, computer: false, obstacles: false, fast: false });
+  const TOGGLES = { B: 'border', C: 'computer', O: 'obstacles', F: 'fast' };
+  const ACTIONS = { S: 'start', I: 'instructions' };
 
-/** @returns {{action: 'start'|'instructions'|null, settings: object}} */
-export function menuKey(settings, key) {
-  const upper = key.toUpperCase();
-  const option = TOGGLES[upper];
-  if (option) return { action: null, settings: { ...settings, [option]: !settings[option] } };
-  return { action: ACTIONS[upper] ?? null, settings };
-}
+  const defaultSettings = () => ({ border: true, computer: false, obstacles: false, fast: false });
+
+  /** @returns {{action: 'start'|'instructions'|null, settings: object}} */
+  function menuKey(settings, key) {
+    const upper = key.toUpperCase();
+    const option = TOGGLES[upper];
+    if (option) return { action: null, settings: { ...settings, [option]: !settings[option] } };
+    return { action: ACTIONS[upper] ?? null, settings };
+  }
+
+  LB.menu = {
+    defaultSettings,
+    menuKey,
+  };
+})(globalThis.LazerBykes ??= {});

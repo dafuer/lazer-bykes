@@ -1,7 +1,9 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DIR, LEFT, createGame, cellIndex } from '../src/core/game.js';
-import { chooseDirection } from '../src/core/ai.js';
+import { LB } from './load.mjs';
+
+const { DIR, LEFT, createGame, cellIndex } = LB.game;
+const { chooseDirection } = LB.ai;
 
 const setup = (rngValue = 0) => {
   const game = createGame({ border: false, computer: true, obstacles: false, fast: false }, () => rngValue);

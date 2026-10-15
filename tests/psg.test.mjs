@@ -1,8 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {
+import { LB } from './load.mjs';
+
+const {
   toneFrequency, engineFrequencies, volumeAmplitude, CRASH_DECAY_SECONDS, NOISE_RATE, decayCurve,
-} from '../src/audio/psg.js';
+} = LB.psg;
 
 const close = (actual, expected, digits = 1) =>
   assert.equal(actual.toFixed(digits), expected.toFixed(digits));

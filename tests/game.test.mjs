@@ -1,9 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {
+import { LB } from './load.mjs';
+
+const {
   DIR, LEFT, RIGHT, WIN_SCORE,
   createGame, setInput, tick, awardPoint, startRace, newGame, cellIndex, isBlocked,
-} from '../src/core/game.js';
+} = LB.game;
 
 const fixedRng = (...values) => {
   let i = 0;

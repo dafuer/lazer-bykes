@@ -1,12 +1,14 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { DIR, LEFT, RIGHT, WIN_SCORE } from '../src/core/game.js';
-import { steerFor } from '../src/input/keyboard.js';
-import { defaultSettings, menuKey } from '../src/app/menu.js';
-import {
+import { LB } from './load.mjs';
+
+const { DIR, LEFT, RIGHT, WIN_SCORE } = LB.game;
+const { steerFor } = LB.keyboard;
+const { defaultSettings, menuKey } = LB.menu;
+const {
   HALF_STEP_MS, EXPLOSION_FRAME_MS, EXPLOSION_FRAMES, NEXT_RACE_DELAY_MS,
   createMatch, update, togglePause, restart,
-} from '../src/app/match.js';
+} = LB.match;
 
 test('arrow keys steer player 1, the left bike', () => {
   assert.deepEqual(steerFor('ArrowUp'), { player: LEFT, dir: DIR.UP });
@@ -135,8 +137,8 @@ test('a long frame gap (hidden tab) is capped instead of fast-forwarding the rac
   assert.ok(match.game.players[RIGHT].x > 200);
 });
 
-test('bike sprites are 3 pixels wide and 8 long, centred on the trail', async () => {
-  const { BIKE } = await import('../src/render/sprites.js');
+test('bike sprites are 3 pixels wide and 8 long, centred on the trail', () => {
+  const { BIKE } = LB.sprites;
   const box = (grid) => {
     const xs = []; const ys = [];
     grid.forEach((row, y) => row.forEach((on, x) => { if (on) { xs.push(x); ys.push(y); } }));
