@@ -6,7 +6,9 @@ Game rules and sound behaviour come from an analysis of the original
 
 ## Play
 
-Double-click `index.html`. No server, npm or install needed.
+Play online: <https://dafuer.github.io/lazer-bykes/>
+
+To play offline, double-click `index.html`. No server, npm or install needed.
 
 | Key | Action |
 | --- | --- |
